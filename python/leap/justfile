@@ -1,0 +1,5 @@
+python:
+	nix develop --command python3
+
+test:
+	nix develop --command poetry run python3 -m pytest -o markers=task leap_test.py 

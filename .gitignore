@@ -1,0 +1,4 @@
+node_modules
+.yarn
+.direnv
+__pycache__

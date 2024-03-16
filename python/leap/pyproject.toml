@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "leap"
+version = "0.1.0"
+description = ""
+authors = ["Luke Amdor"]
+# readme = "README.md"
+# license = "BSD"
+packages = [
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
