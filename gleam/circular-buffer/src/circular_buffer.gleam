@@ -47,5 +47,5 @@ pub fn overwrite(buffer: CircularBuffer(t), item: t) -> CircularBuffer(t) {
 }
 
 pub fn clear(buffer: CircularBuffer(t)) -> CircularBuffer(t) {
-  CircularBuffer(..buffer, queue: queue.new())
+  new(buffer.capacity)
 }
