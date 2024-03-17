@@ -31,25 +31,19 @@ pub fn write(
 }
 
 pub fn overwrite(buffer: CircularBuffer(t), item: t) -> CircularBuffer(t) {
-  case buffer.capacity > queue.length(buffer.queue) {
-    True -> {
-      let q = queue.push_back(onto: buffer.queue, this: item)
-      CircularBuffer(..buffer, queue: q)
+  result.lazy_unwrap(write(buffer, item), fn() {
+    let queue = {
+      result.unwrap(
+        result.map(over: queue.pop_front(from: buffer.queue), with: fn(a) {
+          case a {
+            #(_i, q) -> q
+          }
+        }),
+        or: queue.new(),
+      )
     }
-    False -> {
-      let queue = {
-        result.unwrap(
-          result.map(over: queue.pop_front(from: buffer.queue), with: fn(a) {
-            case a {
-              #(_i, q) -> q
-            }
-          }),
-          or: queue.new(),
-        )
-      }
-      CircularBuffer(..buffer, queue: queue.push_back(queue, item))
-    }
-  }
+    CircularBuffer(..buffer, queue: queue.push_back(queue, item))
+  })
 }
 
 pub fn clear(buffer: CircularBuffer(t)) -> CircularBuffer(t) {
