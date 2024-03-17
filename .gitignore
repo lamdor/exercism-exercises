@@ -2,3 +2,5 @@ node_modules
 .yarn
 .direnv
 __pycache__
+target/
+.bsp
