@@ -46,7 +46,7 @@ func (fm1 FreqMap) merge(fm2 FreqMap) (result FreqMap) {
 
 // ConcurrentFrequency counts the frequency of each rune in the given strings,
 // by making use of concurrency.
-func ConcurrentFrequency(texts []string) (result FreqMap) {
+func ConcurrentFrequency2(texts []string) (result FreqMap) {
 	var wg sync.WaitGroup
 	var results = make([]FreqMap, len(texts))
 	for i, text := range texts {
@@ -61,4 +61,23 @@ func ConcurrentFrequency(texts []string) (result FreqMap) {
 		result = result.merge(r)
 	}
 	return result
+}
+
+func ConcurrentFrequency(texts []string) FreqMap {
+	freqs := make(chan FreqMap, len(texts))
+	results := FreqMap{}
+
+	// map
+	for _, t := range texts {
+		go func(t string) { freqs <- Frequency(t) }(t)
+	}
+
+	// reduce
+	for range texts {
+		for r, c := range <-freqs {
+			results[r] += c
+		}
+	}
+
+	return results
 }
